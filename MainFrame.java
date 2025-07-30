@@ -1,6 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.io.File;
 
 /**
  * Main GUI frame for the Enhanced Pokédex System
@@ -16,6 +16,16 @@ public class MainFrame extends JFrame {
     private ItemsPanel itemsPanel;
     private TrainersPanel trainersPanel;
     
+    private static final Color POKEDEX_BG = new Color(248, 248, 255);
+    private static Font pokeFont(float size) {
+        try {
+            Font font = Font.createFont(Font.TRUETYPE_FONT, new File("resources/fonts/PressStart2P-Regular.ttf"));
+            return font.deriveFont(size);
+        } catch (Exception e) {
+            return new Font("Monospaced", Font.BOLD, (int)size);
+        }
+    }
+    
     public MainFrame(PokemonController controller) {
         this.controller = controller;
         initializeComponents();
@@ -25,6 +35,9 @@ public class MainFrame extends JFrame {
         setTitle("Enhanced Pokédex System");
         setSize(1000, 700);
         setLocationRelativeTo(null);
+        getContentPane().setBackground(POKEDEX_BG);
+        tabbedPane.setBackground(POKEDEX_BG);
+        tabbedPane.setFont(pokeFont(14f));
         
         // Add window listener for save on quit
         addWindowListener(new java.awt.event.WindowAdapter() {

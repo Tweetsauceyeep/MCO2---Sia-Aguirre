@@ -3,6 +3,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.List;
+import java.io.File;
 
 /**
  * Panel for Pokémon management
@@ -17,11 +18,24 @@ public class PokemonPanel extends JPanel {
     private JTextArea detailsArea;
     private JButton addButton, searchButton, saveButton, loadButton, cryButton;
     
+    private static final Color POKEDEX_BG = new Color(248, 248, 255);
+    private static final Color BUTTON_RED = new Color(255, 0, 0);
+    private static final Color BUTTON_YELLOW = new Color(255, 213, 0);
+    private static Font pokeFont(float size) {
+        try {
+            Font font = Font.createFont(Font.TRUETYPE_FONT, new File("resources/fonts/PressStart2P-Regular.ttf"));
+            return font.deriveFont(size);
+        } catch (Exception e) {
+            return new Font("Monospaced", Font.BOLD, (int)size);
+        }
+    }
+    
     public PokemonPanel(PokemonController controller) {
         this.controller = controller;
         initializeComponents();
         setupLayout();
         loadPokemonData();
+        setBackground(POKEDEX_BG);
     }
     
     private void initializeComponents() {
@@ -38,6 +52,8 @@ public class PokemonPanel extends JPanel {
         pokemonTable = new JTable(tableModel);
         pokemonTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         pokemonTable.getTableHeader().setReorderingAllowed(false);
+        pokemonTable.setFont(pokeFont(12f));
+        pokemonTable.getTableHeader().setFont(pokeFont(12f));
         
         // Create components
         searchField = new JTextField(20);
@@ -49,7 +65,7 @@ public class PokemonPanel extends JPanel {
         
         detailsArea = new JTextArea(10, 40);
         detailsArea.setEditable(false);
-        detailsArea.setFont(new Font("Monospaced", Font.PLAIN, 12));
+        detailsArea.setFont(pokeFont(10f));
         
         // Add listeners
         addListeners();

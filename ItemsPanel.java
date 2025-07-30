@@ -3,6 +3,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.List;
+import java.io.File;
 
 /**
  * Panel for Items management
@@ -17,11 +18,23 @@ public class ItemsPanel extends JPanel {
     private JTextArea detailsArea;
     private JButton addButton, searchButton;
     
+    private static final Color POKEDEX_BG = new Color(248, 248, 255);
+    private static final Color BUTTON_RED = new Color(255, 0, 0);
+    private static final Color BUTTON_YELLOW = new Color(255, 213, 0);
+    private static Font pokeFont(float size) {
+        try {
+            Font font = Font.createFont(Font.TRUETYPE_FONT, new File("resources/fonts/PressStart2P-Regular.ttf"));
+            return font.deriveFont(size);
+        } catch (Exception e) {
+            return new Font("Monospaced", Font.BOLD, (int)size);
+        }
+    }
+    
     public ItemsPanel(PokemonController controller) {
         this.controller = controller;
         initializeComponents();
         setupLayout();
-        loadItemsData();
+        setBackground(POKEDEX_BG);
     }
     
     private void initializeComponents() {
@@ -38,6 +51,8 @@ public class ItemsPanel extends JPanel {
         itemsTable = new JTable(tableModel);
         itemsTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         itemsTable.getTableHeader().setReorderingAllowed(false);
+        itemsTable.setFont(pokeFont(12f));
+        itemsTable.getTableHeader().setFont(pokeFont(12f));
         
         // Create components
         searchField = new JTextField(20);
@@ -46,7 +61,15 @@ public class ItemsPanel extends JPanel {
         
         detailsArea = new JTextArea(10, 40);
         detailsArea.setEditable(false);
-        detailsArea.setFont(new Font("Monospaced", Font.PLAIN, 12));
+        detailsArea.setFont(pokeFont(10f));
+        
+        // Add components to form
+        addButton.setBackground(BUTTON_RED);
+        addButton.setForeground(Color.WHITE);
+        addButton.setFont(pokeFont(12f));
+        searchButton.setBackground(BUTTON_YELLOW);
+        searchButton.setFont(pokeFont(12f));
+        searchField.setFont(pokeFont(12f));
         
         // Add listeners
         addListeners();
