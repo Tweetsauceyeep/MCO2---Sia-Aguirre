@@ -1,41 +1,90 @@
 /**
- * Represents a Pokémon trainer with their profile and inventory
+ * Represents a Pokémon trainer with their profile and inventory.
+ * This class manages a trainer's personal information, Pokémon collection,
+ * and item inventory. It provides comprehensive functionality for
+ * Pokémon and item management including buying, selling, and using items.
+ * 
+ * Each trainer has:
+ * - Personal information (name, birthdate, sex, hometown, description)
+ * - A Pokémon lineup (active team of up to 6 Pokémon)
+ * - Pokémon storage (additional Pokémon beyond the lineup)
+ * - An item inventory with quantity tracking
+ * - Money for buying and selling items
+ * 
+ * The class supports various operations including:
+ * - Adding and removing Pokémon from lineup and storage
+ * - Buying, selling, and using items
+ * - Teaching moves to Pokémon
+ * - Managing evolution through items and leveling
+ * 
+ * @author Enhanced Pokédex Team
+ * @version 1.0
+ * @since 2024
  */
 public class Trainer {
     // Constants
+    /** Maximum number of Pokémon in the active lineup */
     private static final int MAX_LINEUP = 6;
+    /** Maximum number of moves a Pokémon can know */
     private static final int MAX_MOVES = 4;
+    /** Maximum number of unique items that can be carried */
     private static final int MAX_UNIQUE_ITEMS = 10;
+    /** Maximum total number of items (including quantities) that can be carried */
     private static final int MAX_TOTAL_ITEMS = 50;
-    private static final int INITIAL_MONEY = 1000000; // ₱1,000,000
+    /** Initial money amount for new trainers (₱1,000,000) */
+    private static final int INITIAL_MONEY = 1000000;
     
-    // Static counter for unique trainer IDs
+    /** Static counter for generating unique trainer IDs */
     private static int trainerCount = 0;
     
     // Trainer attributes
+    /** Unique identifier for this trainer */
     private int trainerID;
+    /** The trainer's name */
     private String name;
+    /** The trainer's birthdate */
     private String birthdate;
+    /** The trainer's sex/gender */
     private String sex;
+    /** The trainer's hometown */
     private String hometown;
+    /** A description of the trainer */
     private String description;
+    /** The trainer's current money amount */
     private int money;
     
     // Pokémon management
-    private Pokemon[] lineup; // Active Pokémon (max 6)
+    /** Array of active Pokémon in the lineup (maximum 6) */
+    private Pokemon[] lineup;
+    /** Number of Pokémon currently in the lineup */
     private int lineupCount;
-    private Pokemon[] storage; // Storage for extra Pokémon
+    /** Array of Pokémon in storage (beyond the lineup) */
+    private Pokemon[] storage;
+    /** Number of Pokémon currently in storage */
     private int storageCount;
+    /** Maximum capacity of the storage */
     private int maxStorage;
     
     // Inventory management
-    private Item[] uniqueItems; // Up to 10 unique items
-    private int[] itemQuantities; // Quantities for each unique item
+    /** Array of unique items in the inventory (maximum 10) */
+    private Item[] uniqueItems;
+    /** Array of quantities corresponding to each unique item */
+    private int[] itemQuantities;
+    /** Number of unique items currently in inventory */
     private int uniqueItemCount;
+    /** Total number of items (including quantities) in inventory */
     private int totalItemCount;
     
     /**
-     * Constructor for creating a new trainer
+     * Constructor for creating a new trainer.
+     * Initializes all trainer attributes and sets up empty
+     * Pokémon lineup, storage, and item inventory.
+     * 
+     * @param name The trainer's name
+     * @param birthdate The trainer's birthdate
+     * @param sex The trainer's sex/gender
+     * @param hometown The trainer's hometown
+     * @param description A description of the trainer
      */
     public Trainer(String name, String birthdate, String sex, String hometown, String description) {
         this.trainerID = ++trainerCount;
@@ -61,7 +110,13 @@ public class Trainer {
     }
     
     /**
-     * Buys an item from the shop
+     * Buys an item from the shop.
+     * Checks if the item is purchasable, if the trainer has enough money,
+     * and if the inventory can accommodate the new items.
+     * 
+     * @param item The item to buy
+     * @param quantity The quantity to buy
+     * @return true if the purchase was successful, false otherwise
      */
     public boolean buyItem(Item item, int quantity) {
         int totalCost = item.getBuyingPrice() * quantity;
@@ -112,7 +167,13 @@ public class Trainer {
     }
     
     /**
-     * Sells an item for its selling price
+     * Sells an item for its selling price.
+     * Checks if the trainer has the item and sufficient quantity.
+     * Removes the items from inventory and adds money to the trainer.
+     * 
+     * @param item The item to sell
+     * @param quantity The quantity to sell
+     * @return true if the sale was successful, false otherwise
      */
     public boolean sellItem(Item item, int quantity) {
         int itemIndex = findItemIndex(item);
@@ -147,7 +208,13 @@ public class Trainer {
     }
     
     /**
-     * Uses an item on a Pokémon
+     * Uses an item on a Pokémon.
+     * Applies the item's effect to the target Pokémon and consumes the item.
+     * Supports different item categories including vitamins, feathers, and leveling items.
+     * 
+     * @param item The item to use
+     * @param target The Pokémon to use the item on
+     * @return true if the item was used successfully, false otherwise
      */
     public boolean useItem(Item item, Pokemon target) {
         int itemIndex = findItemIndex(item);
@@ -236,7 +303,12 @@ public class Trainer {
     }
     
     /**
-     * Adds a Pokémon to the trainer's lineup
+     * Adds a Pokémon to the trainer's lineup.
+     * Checks if there's space in the lineup (maximum 6 Pokémon).
+     * Creates a unique instance of the Pokémon for this trainer.
+     * 
+     * @param pokemon The Pokémon to add to the lineup
+     * @return true if the Pokémon was added successfully, false otherwise
      */
     public boolean addPokemonToLineup(Pokemon pokemon) {
         if (lineupCount >= MAX_LINEUP) {
@@ -254,7 +326,12 @@ public class Trainer {
     }
     
     /**
-     * Adds a Pokémon directly to storage
+     * Adds a Pokémon directly to storage.
+     * Checks if there's space in the storage.
+     * Creates a unique instance of the Pokémon for this trainer.
+     * 
+     * @param pokemon The Pokémon to add to storage
+     * @return true if the Pokémon was added successfully, false otherwise
      */
     public boolean addPokemonToStorage(Pokemon pokemon) {
         if (storageCount >= maxStorage) {
@@ -272,7 +349,13 @@ public class Trainer {
     }
     
     /**
-     * Adds an item to inventory (simpler version for initialization)
+     * Adds an item to inventory (simpler version for initialization).
+     * Checks inventory limits and either adds to existing item quantity
+     * or creates a new unique item entry.
+     * 
+     * @param item The item to add
+     * @param quantity The quantity to add
+     * @return true if the item was added successfully, false otherwise
      */
     public boolean addItem(Item item, int quantity) {
         // Check if adding this quantity would exceed total item limit

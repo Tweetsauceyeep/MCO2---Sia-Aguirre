@@ -1,50 +1,105 @@
 /**
- * Represents a Pokémon with all its attributes and behaviors
- * Implements proper encapsulation and OOP principles
+ * Represents a Pokémon with all its attributes and behaviors.
+ * This class implements proper encapsulation and OOP principles,
+ * providing a complete representation of a Pokémon creature.
+ * 
+ * Each Pokémon instance contains:
+ * - Basic information (name, types, Pokédex number)
+ * - Evolution data (evolution chain and requirements)
+ * - Base and current statistics
+ * - Move set management (up to 4 moves)
+ * - Item holding capabilities
+ * - EV (Effort Value) tracking
+ * 
+ * The class supports Pokémon evolution, move learning,
+ * item effects, and statistical modifications.
+ * 
+ * @author Enhanced Pokédex Team
+ * @version 1.0
+ * @since 2024
  */
 public class Pokemon {
-    // Static counter for unique instances
+    /** Static counter for tracking total Pokémon instances created */
     private static int pokemonCount = 0;
     
     // Core attributes
+    /** The unique Pokédex number of this Pokémon */
     private int pokedexNumber;
+    /** The name of this Pokémon */
     private String name;
+    /** The primary type of this Pokémon */
     private String type1;
-    private String type2; // Optional
+    /** The secondary type of this Pokémon (optional, can be null) */
+    private String type2;
+    /** The base level when this Pokémon is first encountered */
     private int baseLevel;
-    private int evolvesFrom; // Pokédex number, -1 if none
-    private int evolvesTo; // Pokédex number, -1 if none
+    /** Pokédex number of the Pokémon this evolves from (-1 if none) */
+    private int evolvesFrom;
+    /** Pokédex number of the Pokémon this evolves into (-1 if none) */
+    private int evolvesTo;
+    /** The level at which this Pokémon evolves */
     private int evolutionLevel;
     
     // Base stats
+    /** Base HP (Hit Points) statistic */
     private int baseHP;
+    /** Base Attack statistic */
     private int baseAttack;
+    /** Base Defense statistic */
     private int baseDefense;
+    /** Base Speed statistic */
     private int baseSpeed;
     
     // Current stats (can be modified by items)
+    /** Current HP value (can be modified by items and effects) */
     private int currentHP;
+    /** Current Attack value (can be modified by items and effects) */
     private int currentAttack;
+    /** Current Defense value (can be modified by items and effects) */
     private int currentDefense;
+    /** Current Speed value (can be modified by items and effects) */
     private int currentSpeed;
+    /** Current level of this Pokémon */
     private int currentLevel;
     
     // Move set (maximum 4 moves)
+    /** Array containing up to 4 moves this Pokémon knows */
     private Move[] moveSet;
+    /** Number of moves currently known by this Pokémon */
     private int moveCount;
     
     // Held item
+    /** Item currently held by this Pokémon (can be null) */
     private Item heldItem;
     
     // EV stats for item effects
+    /** Effort Value points in HP */
     private int hpEV;
+    /** Effort Value points in Attack */
     private int attackEV;
+    /** Effort Value points in Defense */
     private int defenseEV;
+    /** Effort Value points in Speed */
     private int speedEV;
+    /** Effort Value points in Special Defense */
     private int specialDefenseEV;
     
     /**
-     * Constructor for creating a new Pokémon
+     * Constructor for creating a new Pokémon instance.
+     * Initializes all attributes and sets up default moves.
+     * 
+     * @param pokedexNumber The unique Pokédex number
+     * @param name The name of the Pokémon
+     * @param type1 The primary type
+     * @param type2 The secondary type (can be null or empty)
+     * @param baseLevel The base level when encountered
+     * @param evolvesFrom Pokédex number of pre-evolution (-1 if none)
+     * @param evolvesTo Pokédex number of evolution (-1 if none)
+     * @param evolutionLevel Level required for evolution
+     * @param baseHP Base HP statistic
+     * @param baseAttack Base Attack statistic
+     * @param baseDefense Base Defense statistic
+     * @param baseSpeed Base Speed statistic
      */
     public Pokemon(int pokedexNumber, String name, String type1, String type2, 
                    int baseLevel, int evolvesFrom, int evolvesTo, int evolutionLevel,
@@ -89,7 +144,10 @@ public class Pokemon {
     }
     
     /**
-     * Copy constructor for trainer's unique instance
+     * Copy constructor for creating a unique instance for trainers.
+     * Creates a deep copy of the original Pokémon with all attributes.
+     * 
+     * @param original The Pokémon to copy from
      */
     public Pokemon(Pokemon original) {
         this.pokedexNumber = original.pokedexNumber;
@@ -129,7 +187,9 @@ public class Pokemon {
     }
     
     /**
-     * Adds default moves "Tackle" and "Defend" to new Pokémon
+     * Adds default moves "Tackle" and "Defend" to new Pokémon.
+     * This method is called during construction to ensure every Pokémon
+     * starts with basic moves.
      */
     private void addDefaultMoves() {
         // Create default moves if they don't exist
@@ -142,7 +202,9 @@ public class Pokemon {
     }
     
     /**
-     * The Pokémon's cry method - plays the sound it makes
+     * Makes the Pokémon cry, displaying its characteristic sound.
+     * In a real implementation, this would play an audio file.
+     * Currently outputs the Pokémon's name in uppercase followed by "!"
      */
     public void cry() {
         System.out.println(name + " cries: \"" + name.toUpperCase() + "!\"");
@@ -151,10 +213,14 @@ public class Pokemon {
     }
     
     /**
-     * Teaches a new move to the Pokémon
+     * Teaches a new move to the Pokémon.
+     * The move must be type-compatible with this Pokémon.
+     * If the move set is full, a move must be replaced.
+     * HM moves cannot be forgotten once learned.
+     * 
      * @param move The move to learn
      * @param replaceIndex Index of move to replace if moveSet is full, -1 to add normally
-     * @return true if move was learned successfully
+     * @return true if move was learned successfully, false otherwise
      */
     public boolean learnMove(Move move, int replaceIndex) {
         // Check type compatibility
@@ -182,7 +248,12 @@ public class Pokemon {
     }
     
     /**
-     * Checks if a move is compatible with this Pokémon
+     * Checks if a move is compatible with this Pokémon.
+     * Normal type moves can be learned by all Pokémon.
+     * Other moves must share at least one type with the Pokémon.
+     * 
+     * @param move The move to check compatibility for
+     * @return true if the move is compatible, false otherwise
      */
     private boolean isCompatibleMove(Move move) {
         String moveType1 = move.getType1();
@@ -199,7 +270,11 @@ public class Pokemon {
     }
     
     /**
-     * Uses Rare Candy to level up the Pokémon
+     * Uses Rare Candy to level up the Pokémon.
+     * Increases the current level by 1 and boosts all stats by 10%.
+     * Checks if evolution should occur based on level requirements.
+     * 
+     * @return true if evolution should occur, false otherwise
      */
     public boolean useRareCandy() {
         currentLevel++;
@@ -219,7 +294,11 @@ public class Pokemon {
     }
     
     /**
-     * Evolves this Pokémon using evolution stone or level up
+     * Evolves this Pokémon using evolution stone or level up.
+     * Updates all base information to the evolved form while preserving
+     * current stats if they are higher than the new base stats.
+     * 
+     * @param evolvedForm The evolved form of this Pokémon
      */
     public void evolve(Pokemon evolvedForm) {
         // Keep current stats if they're higher than base stats
@@ -245,7 +324,11 @@ public class Pokemon {
     }
     
     /**
-     * Applies item effects to the Pokémon
+     * Applies item effects to the Pokémon.
+     * Processes various item effects including HP, Attack, Defense, Speed,
+     * and Special Defense EV boosts. Updates both EV values and current stats.
+     * 
+     * @param item The item whose effects should be applied
      */
     public void applyItemEffect(Item item) {
         String effect = item.getEffect();
@@ -290,42 +373,154 @@ public class Pokemon {
     }
     
     // Getters and Setters
+    
+    /**
+     * Gets the Pokédex number of this Pokémon.
+     * @return The unique Pokédex number
+     */
     public int getPokedexNumber() { return pokedexNumber; }
+    
+    /**
+     * Gets the name of this Pokémon.
+     * @return The Pokémon's name
+     */
     public String getName() { return name; }
+    
+    /**
+     * Gets the primary type of this Pokémon.
+     * @return The primary type
+     */
     public String getType1() { return type1; }
+    
+    /**
+     * Gets the secondary type of this Pokémon.
+     * @return The secondary type, or null if none
+     */
     public String getType2() { return type2; }
+    
+    /**
+     * Gets the base level of this Pokémon.
+     * @return The base level when first encountered
+     */
     public int getBaseLevel() { return baseLevel; }
+    
+    /**
+     * Gets the current level of this Pokémon.
+     * @return The current level
+     */
     public int getCurrentLevel() { return currentLevel; }
+    
+    /**
+     * Gets the Pokédex number of the Pokémon this evolves from.
+     * @return The pre-evolution Pokédex number, or -1 if none
+     */
     public int getEvolvesFrom() { return evolvesFrom; }
+    
+    /**
+     * Gets the Pokédex number of the Pokémon this evolves into.
+     * @return The evolution Pokédex number, or -1 if none
+     */
     public int getEvolvesTo() { return evolvesTo; }
+    
+    /**
+     * Gets the level required for evolution.
+     * @return The evolution level requirement
+     */
     public int getEvolutionLevel() { return evolutionLevel; }
     
+    /**
+     * Gets the base HP statistic.
+     * @return The base HP value
+     */
     public int getBaseHP() { return baseHP; }
+    
+    /**
+     * Gets the base Attack statistic.
+     * @return The base Attack value
+     */
     public int getBaseAttack() { return baseAttack; }
+    
+    /**
+     * Gets the base Defense statistic.
+     * @return The base Defense value
+     */
     public int getBaseDefense() { return baseDefense; }
+    
+    /**
+     * Gets the base Speed statistic.
+     * @return The base Speed value
+     */
     public int getBaseSpeed() { return baseSpeed; }
     
+    /**
+     * Gets the current HP value.
+     * @return The current HP value
+     */
     public int getCurrentHP() { return currentHP; }
+    
+    /**
+     * Gets the current Attack value.
+     * @return The current Attack value
+     */
     public int getCurrentAttack() { return currentAttack; }
+    
+    /**
+     * Gets the current Defense value.
+     * @return The current Defense value
+     */
     public int getCurrentDefense() { return currentDefense; }
+    
+    /**
+     * Gets the current Speed value.
+     * @return The current Speed value
+     */
     public int getCurrentSpeed() { return currentSpeed; }
     
+    /**
+     * Gets the move set of this Pokémon.
+     * @return Array containing up to 4 moves
+     */
     public Move[] getMoveSet() { return moveSet; }
+    
+    /**
+     * Gets the number of moves currently known.
+     * @return The number of moves known
+     */
     public int getMoveCount() { return moveCount; }
+    
+    /**
+     * Gets the item currently held by this Pokémon.
+     * @return The held item, or null if none
+     */
     public Item getHeldItem() { return heldItem; }
     
+    /**
+     * Sets the item held by this Pokémon.
+     * @param item The item to hold
+     */
     public void setHeldItem(Item item) { 
         this.heldItem = item; 
     }
     
+    /**
+     * Removes the item held by this Pokémon.
+     */
     public void removeHeldItem() {
         this.heldItem = null;
     }
     
+    /**
+     * Gets the total number of Pokémon instances created.
+     * @return The total count of Pokémon instances
+     */
     public static int getPokemonCount() { return pokemonCount; }
     
     /**
-     * Formats Pokémon data for CSV export
+     * Formats Pokémon data for CSV export.
+     * Creates a comma-separated string containing all Pokémon attributes
+     * including moves (separated by semicolons) and held item.
+     * 
+     * @return A CSV-formatted string representation of the Pokémon
      */
     public String formatToCSV() {
         StringBuilder sb = new StringBuilder();
@@ -357,7 +552,10 @@ public class Pokemon {
     }
 
     /**
-     * Returns a string representation of the Pokémon
+     * Returns a detailed string representation of the Pokémon.
+     * Includes Pokédex number, name, types, level, stats, moves, and held item.
+     * 
+     * @return A formatted string representation of the Pokémon
      */
     @Override
     public String toString() {

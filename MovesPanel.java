@@ -6,21 +6,51 @@ import java.util.List;
 import java.io.File;
 
 /**
- * Panel for Moves management
+ * Panel for Moves management.
+ * This class provides the user interface for managing move data,
+ * including viewing, searching, adding, and saving move information.
+ * 
+ * The panel includes:
+ * - A table displaying all moves with their basic information
+ * - Search functionality to find specific moves
+ * - Add button to create new move entries
+ * - Save/Load buttons for CSV file operations
+ * - A details area showing comprehensive move information
+ * 
+ * @author Enhanced Pokédex Team
+ * @version 1.0
+ * @since 2024
  */
 public class MovesPanel extends JPanel {
+    /** Reference to the Controller component */
     private PokemonController controller;
     
     // Components
+    /** Table displaying move data */
     private JTable movesTable;
+    /** Model for the moves table */
     private DefaultTableModel tableModel;
+    /** Text field for search input */
     private JTextField searchField;
+    /** Text area for displaying detailed move information */
     private JTextArea detailsArea;
+    /** Buttons for various operations */
     private JButton addButton, searchButton, saveButton, loadButton;
     
+    /** Background color for the Pokédex theme */
     private static final Color POKEDEX_BG = new Color(248, 248, 255);
+    /** Red color for buttons */
     private static final Color BUTTON_RED = new Color(255, 0, 0);
+    /** Yellow color for buttons */
     private static final Color BUTTON_YELLOW = new Color(255, 213, 0);
+    /**
+     * Creates a Pokémon-themed font with the specified size.
+     * Attempts to load the custom PressStart2P font, falls back to
+     * Monospaced Bold if the custom font cannot be loaded.
+     * 
+     * @param size The font size to use
+     * @return A Font object with the specified size
+     */
     private static Font pokeFont(float size) {
         try {
             Font font = Font.createFont(Font.TRUETYPE_FONT, new File("resources/fonts/PressStart2P-Regular.ttf"));
@@ -30,6 +60,13 @@ public class MovesPanel extends JPanel {
         }
     }
     
+    /**
+     * Constructor for the moves panel.
+     * Initializes all components, sets up the layout,
+     * and loads initial moves data.
+     * 
+     * @param controller The Controller component to use
+     */
     public MovesPanel(PokemonController controller) {
         this.controller = controller;
         initializeComponents();

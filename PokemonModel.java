@@ -2,18 +2,38 @@ import java.util.*;
 import java.io.*;
 
 /**
- * Model class for the Enhanced Pokédex System
- * Contains all data and business logic
+ * Model class for the Enhanced Pokédex System.
+ * This class contains all data and business logic for the application,
+ * following the MVC (Model-View-Controller) design pattern.
+ * 
+ * The Model manages:
+ * - Pokémon data (list, search, add operations)
+ * - Move data (list, search, add operations)
+ * - Item data (list, search, add operations)
+ * - Trainer data (list, search, add operations)
+ * - CSV file operations for data persistence
+ * 
+ * All data operations go through this class, ensuring
+ * proper data management and business rule enforcement.
+ * 
+ * @author Enhanced Pokédex Team
+ * @version 1.0
+ * @since 2024
  */
 public class PokemonModel {
-    // Data storage using ArrayList
+    /** List to store all Pokémon data */
     private List<Pokemon> pokemonList = new ArrayList<>();
+    /** List to store all move data */
     private List<Move> moveList = new ArrayList<>();
+    /** List to store all item data */
     private List<Item> itemList = new ArrayList<>();
+    /** List to store all trainer data */
     private List<Trainer> trainerList = new ArrayList<>();
     
     /**
-     * Constructor - initializes the system with default data
+     * Constructor - initializes the system with default data.
+     * Loads all default moves, items, Pokémon, and trainers
+     * from CSV files or creates them if files don't exist.
      */
     public PokemonModel() {
         // Always initialize all default data
@@ -21,7 +41,9 @@ public class PokemonModel {
     }
     
     /**
-     * Initialize the system with default data
+     * Initialize the system with default data.
+     * Sets up all default moves and items, then loads
+     * Pokémon and trainer data from CSV files.
      */
     private void initializeSystem() {
         // Always initialize moves and items with hardcoded defaults
@@ -50,7 +72,22 @@ public class PokemonModel {
     // Core business logic methods
     
     /**
-     * Add Pokémon to database
+     * Add Pokémon to database.
+     * Checks for duplicate Pokédex numbers and names before adding.
+     * 
+     * @param pokedexNumber The unique Pokédex number
+     * @param name The name of the Pokémon
+     * @param type1 The primary type
+     * @param type2 The secondary type (can be null)
+     * @param baseLevel The base level when encountered
+     * @param evolvesFrom Pokédex number of pre-evolution (-1 if none)
+     * @param evolvesTo Pokédex number of evolution (-1 if none)
+     * @param evolutionLevel Level required for evolution
+     * @param baseHP Base HP statistic
+     * @param baseAttack Base Attack statistic
+     * @param baseDefense Base Defense statistic
+     * @param baseSpeed Base Speed statistic
+     * @return true if the Pokémon was added successfully, false otherwise
      */
     public boolean addPokemon(int pokedexNumber, String name, String type1, String type2,
                             int baseLevel, int evolvesFrom, int evolvesTo, int evolutionLevel,

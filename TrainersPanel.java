@@ -6,21 +6,55 @@ import java.util.List;
 import java.io.File;
 
 /**
- * Panel for Trainers management
+ * Panel for Trainers management.
+ * This class provides the user interface for managing trainer data,
+ * including viewing, searching, adding, and performing operations on trainers.
+ * 
+ * The panel includes:
+ * - A table displaying all trainers with their basic information
+ * - Search functionality to find specific trainers
+ * - Add button to create new trainer entries
+ * - Trainer operations button for advanced trainer management
+ * - A details area showing comprehensive trainer information
+ * - Complex dialog systems for trainer operations including:
+ *   - Pokémon lineup and storage management
+ *   - Item buying, selling, and usage
+ *   - Move teaching and Pokémon evolution
+ * 
+ * @author Enhanced Pokédex Team
+ * @version 1.0
+ * @since 2024
  */
 public class TrainersPanel extends JPanel {
+    /** Reference to the Controller component */
     private PokemonController controller;
     
     // Components
+    /** Table displaying trainer data */
     private JTable trainersTable;
+    /** Model for the trainers table */
     private DefaultTableModel tableModel;
+    /** Text field for search input */
     private JTextField searchField;
+    /** Text area for displaying detailed trainer information */
     private JTextArea detailsArea;
+    /** Buttons for various operations */
     private JButton addButton, searchButton, operationsButton;
     
+    /** Background color for the Pokédex theme */
     private static final Color POKEDEX_BG = new Color(248, 248, 255);
+    /** Red color for buttons */
     private static final Color BUTTON_RED = new Color(255, 0, 0);
+    /** Yellow color for buttons */
     private static final Color BUTTON_YELLOW = new Color(255, 213, 0);
+    /**
+     * Creates a Pokémon-themed font with the specified size.
+     * Attempts to load the custom PressStart2P font, falls back to
+     * Monospaced Bold if the custom font cannot be loaded.
+     * 
+     * @param size The font size to use
+     * @return A Font object with the specified size
+     */
     private static Font pokeFont(float size) {
         try {
             Font font = Font.createFont(Font.TRUETYPE_FONT, new File("resources/fonts/PressStart2P-Regular.ttf"));
@@ -30,6 +64,13 @@ public class TrainersPanel extends JPanel {
         }
     }
     
+    /**
+     * Constructor for the trainers panel.
+     * Initializes all components, sets up the layout,
+     * and loads initial trainers data.
+     * 
+     * @param controller The Controller component to use
+     */
     public TrainersPanel(PokemonController controller) {
         this.controller = controller;
         initializeComponents();

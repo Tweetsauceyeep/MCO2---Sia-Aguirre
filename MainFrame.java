@@ -3,20 +3,46 @@ import java.awt.*;
 import java.io.File;
 
 /**
- * Main GUI frame for the Enhanced Pokédex System
- * Follows MVC design pattern as the View component
+ * Main GUI frame for the Enhanced Pokédex System.
+ * This class serves as the main View component in the MVC design pattern,
+ * providing the primary user interface for the application.
+ * 
+ * The MainFrame:
+ * - Creates and manages the main application window
+ * - Contains a tabbed interface for different sections (Pokémon, Moves, Items, Trainers)
+ * - Handles window events and application lifecycle
+ * - Manages the overall layout and appearance of the application
+ * 
+ * @author Enhanced Pokédex Team
+ * @version 1.0
+ * @since 2024
  */
 public class MainFrame extends JFrame {
+    /** Reference to the Controller component */
     private PokemonController controller;
+    /** Main tabbed pane containing all sections */
     private JTabbedPane tabbedPane;
     
     // Panels for different sections
+    /** Panel for Pokémon management */
     private PokemonPanel pokemonPanel;
+    /** Panel for move management */
     private MovesPanel movesPanel;
+    /** Panel for item management */
     private ItemsPanel itemsPanel;
+    /** Panel for trainer management */
     private TrainersPanel trainersPanel;
     
+    /** Background color for the Pokédex theme */
     private static final Color POKEDEX_BG = new Color(248, 248, 255);
+    /**
+     * Creates a Pokémon-themed font with the specified size.
+     * Attempts to load the custom PressStart2P font, falls back to
+     * Monospaced Bold if the custom font cannot be loaded.
+     * 
+     * @param size The font size to use
+     * @return A Font object with the specified size
+     */
     private static Font pokeFont(float size) {
         try {
             Font font = Font.createFont(Font.TRUETYPE_FONT, new File("resources/fonts/PressStart2P-Regular.ttf"));
@@ -26,6 +52,13 @@ public class MainFrame extends JFrame {
         }
     }
     
+    /**
+     * Constructor for the main application frame.
+     * Initializes the GUI components, sets up the layout,
+     * and configures the window properties.
+     * 
+     * @param controller The Controller component to use
+     */
     public MainFrame(PokemonController controller) {
         this.controller = controller;
         initializeComponents();

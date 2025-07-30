@@ -1,12 +1,33 @@
 import java.util.List;
 
 /**
- * Controller class for the Enhanced Pokédex System
- * Handles communication between Model and View
+ * Controller class for the Enhanced Pokédex System.
+ * This class handles communication between the Model and View components
+ * in the MVC (Model-View-Controller) design pattern.
+ * 
+ * The Controller:
+ * - Receives user input from the View
+ * - Processes the input and calls appropriate Model methods
+ * - Returns results to the View for display
+ * - Manages the flow of data between Model and View
+ * 
+ * This ensures proper separation of concerns and maintains
+ * the integrity of the MVC architecture.
+ * 
+ * @author Enhanced Pokédex Team
+ * @version 1.0
+ * @since 2024
  */
 public class PokemonController {
+    /** Reference to the Model component */
     private PokemonModel model;
     
+    /**
+     * Constructor for the Controller.
+     * Initializes the controller with a reference to the Model.
+     * 
+     * @param model The Model component to control
+     */
     public PokemonController(PokemonModel model) {
         this.model = model;
     }

@@ -6,21 +6,52 @@ import java.util.List;
 import java.io.File;
 
 /**
- * Panel for Pokémon management
+ * Panel for Pokémon management.
+ * This class provides the user interface for managing Pokémon data,
+ * including viewing, searching, adding, and saving Pokémon information.
+ * 
+ * The panel includes:
+ * - A table displaying all Pokémon with their basic information
+ * - Search functionality to find specific Pokémon
+ * - Add button to create new Pokémon entries
+ * - Save/Load buttons for CSV file operations
+ * - A details area showing comprehensive Pokémon information
+ * - A cry button to simulate Pokémon sounds
+ * 
+ * @author Enhanced Pokédex Team
+ * @version 1.0
+ * @since 2024
  */
 public class PokemonPanel extends JPanel {
+    /** Reference to the Controller component */
     private PokemonController controller;
     
     // Components
+    /** Table displaying Pokémon data */
     private JTable pokemonTable;
+    /** Model for the Pokémon table */
     private DefaultTableModel tableModel;
+    /** Text field for search input */
     private JTextField searchField;
+    /** Text area for displaying detailed Pokémon information */
     private JTextArea detailsArea;
+    /** Buttons for various operations */
     private JButton addButton, searchButton, saveButton, loadButton, cryButton;
     
+    /** Background color for the Pokédex theme */
     private static final Color POKEDEX_BG = new Color(248, 248, 255);
+    /** Red color for buttons */
     private static final Color BUTTON_RED = new Color(255, 0, 0);
+    /** Yellow color for buttons */
     private static final Color BUTTON_YELLOW = new Color(255, 213, 0);
+    /**
+     * Creates a Pokémon-themed font with the specified size.
+     * Attempts to load the custom PressStart2P font, falls back to
+     * Monospaced Bold if the custom font cannot be loaded.
+     * 
+     * @param size The font size to use
+     * @return A Font object with the specified size
+     */
     private static Font pokeFont(float size) {
         try {
             Font font = Font.createFont(Font.TRUETYPE_FONT, new File("resources/fonts/PressStart2P-Regular.ttf"));
@@ -30,6 +61,13 @@ public class PokemonPanel extends JPanel {
         }
     }
     
+    /**
+     * Constructor for the Pokémon panel.
+     * Initializes all components, sets up the layout,
+     * and loads initial Pokémon data.
+     * 
+     * @param controller The Controller component to use
+     */
     public PokemonPanel(PokemonController controller) {
         this.controller = controller;
         initializeComponents();
